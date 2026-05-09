@@ -1,4 +1,8 @@
 ﻿namespace EmailSender.Contracts.Contracts;
 // From email-queue, represents the data needed to send a verification email
-public sealed record VerificationEmailMessage();
+public sealed record VerificationEmailMessage
+(   string To,
+    string VerificationCode,
+    string? CorrelationId = null
+);
 

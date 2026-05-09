@@ -24,26 +24,23 @@ public class SendVerificationEmailFunctions(IEmailSender emailSender, ILogger<Se
     {
         string body = message.Body.ToString();
 
-        ComposedEmailMessage? request = JsonSerializer.Deserialize<ComposedEmailMessage>(body, _jsonOptions)
+        VerificationEmailMessage? request = JsonSerializer.Deserialize<VerificationEmailMessage>(body, _jsonOptions)
             ?? throw new InvalidOperationException("Message could not be deserialized");
 
         if (!IsValid(request))
-        {
             throw new InvalidOperationException("Message is missing required fields.");
-        }
 
-        await emailSender.SendAsync(request, ct);
+
+        //await emailSender.SendAsync(request, ct);
 
         // Complete the message, remove from queue
         await messageActions.CompleteMessageAsync(message);
     }
 
-    private static bool IsValid(ComposedEmailMessage request)
+    private static bool IsValid(VerificationEmailMessage request)
     {
-        if (string.IsNullOrWhiteSpace(request.MessageType)) return false;
         if (string.IsNullOrWhiteSpace(request.To)) return false;
-        if (string.IsNullOrWhiteSpace(request.Subject)) return false;
-        if (string.IsNullOrWhiteSpace(request.PlainTextBody) && string.IsNullOrWhiteSpace(request.HtmlBody)) return false;
+        if (string.IsNullOrWhiteSpace(request.VerificationCode)) return false;
 
         return true;
     }

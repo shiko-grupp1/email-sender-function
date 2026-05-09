@@ -7,8 +7,8 @@ using Microsoft.Extensions.Logging;
 using System.Text.Json;
 
 namespace EmailSender.Function.Functions;
-
-public class SendVerificationEmailFunctions(IEmailSender emailSender, ILogger<SendVerificationEmailFunctions> logger, CancellationToken ct = default)
+// queue message -> verification model -> composed email -> ACS sender
+public class SendVerificationEmailFunctions(IVerificationEmailComposer emailComposer, IEmailSender emailSender, ILogger<SendVerificationEmailFunctions> logger, CancellationToken ct = default)
 {
     private readonly ILogger<SendVerificationEmailFunctions> _logger = logger;
     private static readonly JsonSerializerOptions _jsonOptions = new JsonSerializerOptions
@@ -30,8 +30,8 @@ public class SendVerificationEmailFunctions(IEmailSender emailSender, ILogger<Se
         if (!IsValid(request))
             throw new InvalidOperationException("Message is missing required fields.");
 
-
-        //await emailSender.SendAsync(request, ct);
+        ComposedEmailMessage composedMessage = emailComposer.Compose(request);
+        await emailSender.SendAsync(composedMessage, ct);
 
         // Complete the message, remove from queue
         await messageActions.CompleteMessageAsync(message);

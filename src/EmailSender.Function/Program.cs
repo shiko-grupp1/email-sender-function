@@ -1,5 +1,6 @@
 using Azure.Communication.Email;
 using EmailSender.Application.Abstractions;
+using EmailSender.Application.Composers;
 using EmailSender.Infrastructure.Services;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Builder;
@@ -11,6 +12,8 @@ var builder = FunctionsApplication.CreateBuilder(args);
 builder.Services
     .AddApplicationInsightsTelemetryWorkerService()
     .ConfigureFunctionsApplicationInsights();
+
+builder.Services.AddScoped<IVerificationEmailComposer, VerificationEmailComposer>();
 
 builder.Services.AddSingleton(_ =>
 {

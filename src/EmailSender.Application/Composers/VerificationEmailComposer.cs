@@ -12,7 +12,6 @@ public sealed class VerificationEmailComposer : IVerificationEmailComposer
         string htmlBody = $"<p>Your verification code is <strong>{message.VerificationCode}</strong>.</p>";
 
         return new ComposedEmailMessage(
-            MessageType: "Verification",
             To: message.To,
             Subject: subject,
             PlainTextBody: plainTextBody,

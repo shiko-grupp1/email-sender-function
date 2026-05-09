@@ -1,6 +1,8 @@
-﻿namespace EmailSender.Application.Abstractions;
+using EmailSender.Contracts.Contracts;
+
+namespace EmailSender.Application.Abstractions;
 
 public interface IEmailSender
 {
-    Task SendAsync(EmailMessageRequest request, CancellationToken ct = default);
+    Task SendAsync(ComposedEmailMessage message, CancellationToken ct = default);
 }

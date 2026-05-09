@@ -1,7 +1,7 @@
 
 using Azure.Messaging.ServiceBus;
 using EmailSender.Application.Abstractions;
-using EmailSender.Function.Contracts;
+using EmailSender.Contracts.Contracts;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.Logging;
 using System.Text.Json;

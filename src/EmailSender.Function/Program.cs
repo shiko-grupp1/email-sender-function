@@ -1,14 +1,12 @@
 using Azure.Communication.Email;
 using EmailSender.Application.Abstractions;
-using EmailSender.Function.Infrastructure.Services;
+using EmailSender.Infrastructure.Services;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
 var builder = FunctionsApplication.CreateBuilder(args);
-
-builder.ConfigureFunctionsWebApplication();
 
 builder.Services
     .AddApplicationInsightsTelemetryWorkerService()

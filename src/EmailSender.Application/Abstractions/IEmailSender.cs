@@ -1,6 +1,4 @@
-﻿using EmailSender.Function.Dtos;
-
-namespace EmailSender.Function.Abstractions;
+﻿namespace EmailSender.Application.Abstractions;
 
 public interface IEmailSender
 {

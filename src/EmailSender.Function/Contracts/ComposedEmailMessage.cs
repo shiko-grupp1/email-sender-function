@@ -1,6 +1,6 @@
-﻿namespace EmailSender.Function.Dtos;
-
-public sealed record EmailMessageRequest
+﻿namespace EmailSender.Function.Contracts;
+// Internal transport-objekt
+public sealed record ComposedEmailMessage
 (   string MessageType, 
     string To, 
     string Subject, 

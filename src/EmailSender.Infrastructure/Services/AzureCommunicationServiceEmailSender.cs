@@ -1,9 +1,9 @@
 ﻿using Azure.Communication.Email;
-using EmailSender.Function.Abstractions;
+using EmailSender.Function.Application.Abstractions;
 using EmailSender.Function.Dtos;
 using Microsoft.Extensions.Configuration;
 
-namespace EmailSender.Function.Services;
+namespace EmailSender.Infrastructure.Services;
 
 public class AzureCommunicationServiceEmailSender(EmailClient emailClient, IConfiguration configuration) : IEmailSender
 {

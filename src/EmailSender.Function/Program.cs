@@ -1,6 +1,6 @@
 using Azure.Communication.Email;
-using EmailSender.Function.Abstractions;
-using EmailSender.Function.Services;
+using EmailSender.Application.Abstractions;
+using EmailSender.Function.Infrastructure.Services;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Builder;
 using Microsoft.Extensions.DependencyInjection;

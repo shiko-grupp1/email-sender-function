@@ -1,7 +1,7 @@
 
 using Azure.Messaging.ServiceBus;
-using EmailSender.Function.Abstractions;
-using EmailSender.Function.Dtos;
+using EmailSender.Application.Abstractions;
+using EmailSender.Function.Contracts;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.Logging;
 using System.Text.Json;
@@ -24,7 +24,7 @@ public class SendVerificationEmailFunctions(IEmailSender emailSender, ILogger<Se
     {
         string body = message.Body.ToString();
 
-        EmailMessageRequest? request = JsonSerializer.Deserialize<EmailMessageRequest>(body, _jsonOptions)
+        ComposedEmailMessage? request = JsonSerializer.Deserialize<ComposedEmailMessage>(body, _jsonOptions)
             ?? throw new InvalidOperationException("Message could not be deserialized");
 
         if (!IsValid(request))
@@ -38,7 +38,7 @@ public class SendVerificationEmailFunctions(IEmailSender emailSender, ILogger<Se
         await messageActions.CompleteMessageAsync(message);
     }
 
-    private static bool IsValid(EmailMessageRequest request)
+    private static bool IsValid(ComposedEmailMessage request)
     {
         if (string.IsNullOrWhiteSpace(request.MessageType)) return false;
         if (string.IsNullOrWhiteSpace(request.To)) return false;

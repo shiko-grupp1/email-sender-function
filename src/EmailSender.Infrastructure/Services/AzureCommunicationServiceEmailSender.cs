@@ -4,7 +4,7 @@ using EmailSender.Contracts.Contracts;
 using Microsoft.Extensions.Configuration;
 
 namespace EmailSender.Infrastructure.Services;
-// Translates ComposedEmailMessage to EmailMessage in ACS-format and sends using Azure Communication Service EmailClient
+// Maps ComposedEmailMessage to Azure Communiation Service EmailMessage and sends it using EmailClient
 public class AzureCommunicationServiceEmailSender(EmailClient emailClient, IConfiguration configuration) : IEmailSender
 {
     public async Task SendAsync(ComposedEmailMessage message, CancellationToken ct = default)

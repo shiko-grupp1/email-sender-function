@@ -1,4 +1,3 @@
-
 using Azure.Messaging.ServiceBus;
 using EmailSender.Application.Abstractions;
 using EmailSender.Contracts.Contracts;

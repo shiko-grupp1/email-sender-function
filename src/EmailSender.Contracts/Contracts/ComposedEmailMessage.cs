@@ -1,4 +1,4 @@
-﻿namespace EmailSender.Function.Contracts;
+﻿namespace EmailSender.Contracts.Contracts;
 // Internal transport-objekt
 public sealed record ComposedEmailMessage
 (   string MessageType, 

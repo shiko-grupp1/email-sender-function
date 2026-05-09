@@ -19,6 +19,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\EmailSender.Application\EmailSender.Application.csproj" />
+    <ProjectReference Include="..\EmailSender.Contracts\EmailSender.Contracts.csproj" />
     <ProjectReference Include="..\EmailSender.Infrastructure\EmailSender.Infrastructure.csproj" />
   </ItemGroup>
 

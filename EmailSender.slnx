@@ -1,5 +1,6 @@
 <Solution>
   <Project Path="src/EmailSender.Application/EmailSender.Application.csproj" Id="bdcb756a-5dfc-4fc1-9a3a-e2ff897fb097" />
+  <Project Path="src/EmailSender.Contracts/EmailSender.Contracts.csproj" Id="b00c6c9e-0a92-47a4-ae8e-998420d524a0" />
   <Project Path="src/EmailSender.Function/EmailSender.Function.csproj" />
   <Project Path="src/EmailSender.Infrastructure/EmailSender.Infrastructure.csproj" Id="b6f019c6-1b2f-45ab-a025-c782bfe54480" />
 </Solution>

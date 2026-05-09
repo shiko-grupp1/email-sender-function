@@ -1,6 +1,7 @@
 using Azure.Communication.Email;
-using EmailSender.Function.Abstractions;
-using EmailSender.Function.Services;
+using EmailSender.Application.Abstractions;
+using EmailSender.Application.Composers;
+using EmailSender.Infrastructure.Services;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Builder;
 using Microsoft.Extensions.DependencyInjection;
@@ -8,11 +9,11 @@ using Microsoft.Extensions.Hosting;
 
 var builder = FunctionsApplication.CreateBuilder(args);
 
-builder.ConfigureFunctionsWebApplication();
-
 builder.Services
     .AddApplicationInsightsTelemetryWorkerService()
     .ConfigureFunctionsApplicationInsights();
+
+builder.Services.AddScoped<IVerificationEmailComposer, VerificationEmailComposer>();
 
 builder.Services.AddSingleton(_ =>
 {

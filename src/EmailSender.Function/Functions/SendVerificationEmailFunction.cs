@@ -8,9 +8,8 @@ using System.Text.Json;
 
 namespace EmailSender.Function.Functions;
 
-public class SendVerificationEmailFunctions(IEmailSender emailSender, ILogger<SendVerificationEmailFunctions> logger, CancellationToken ct = default)
+public class SendVerificationEmailFunctions(IEmailSender emailSender, CancellationToken ct = default)
 {
-    private readonly ILogger<SendVerificationEmailFunctions> _logger = logger;
     private static readonly JsonSerializerOptions _jsonOptions = new JsonSerializerOptions
     {
         PropertyNameCaseInsensitive = true,

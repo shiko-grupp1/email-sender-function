@@ -1,14 +1,13 @@
-
 using Azure.Messaging.ServiceBus;
-using EmailSender.Function.Abstractions;
-using EmailSender.Function.Dtos;
+using EmailSender.Application.Abstractions;
+using EmailSender.Contracts.Contracts;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.Logging;
 using System.Text.Json;
 
 namespace EmailSender.Function.Functions;
-
-public class SendVerificationEmailFunctions(IEmailSender emailSender, CancellationToken ct = default)
+// queue message -> verification model -> composed email -> ACS sender
+public class SendVerificationEmailFunctions(IVerificationEmailComposer emailComposer, IEmailSender emailSender, ILogger<SendVerificationEmailFunctions> logger, CancellationToken ct = default)
 {
     private static readonly JsonSerializerOptions _jsonOptions = new JsonSerializerOptions
     {
@@ -23,26 +22,23 @@ public class SendVerificationEmailFunctions(IEmailSender emailSender, Cancellati
     {
         string body = message.Body.ToString();
 
-        EmailMessageRequest? request = JsonSerializer.Deserialize<EmailMessageRequest>(body, _jsonOptions)
+        VerificationEmailMessage? request = JsonSerializer.Deserialize<VerificationEmailMessage>(body, _jsonOptions)
             ?? throw new InvalidOperationException("Message could not be deserialized");
 
         if (!IsValid(request))
-        {
             throw new InvalidOperationException("Message is missing required fields.");
-        }
 
-        await emailSender.SendAsync(request, ct);
+        ComposedEmailMessage composedMessage = emailComposer.Compose(request);
+        await emailSender.SendAsync(composedMessage, ct);
 
         // Complete the message, remove from queue
         await messageActions.CompleteMessageAsync(message);
     }
 
-    private static bool IsValid(EmailMessageRequest request)
+    private static bool IsValid(VerificationEmailMessage request)
     {
-        if (string.IsNullOrWhiteSpace(request.MessageType)) return false;
         if (string.IsNullOrWhiteSpace(request.To)) return false;
-        if (string.IsNullOrWhiteSpace(request.Subject)) return false;
-        if (string.IsNullOrWhiteSpace(request.PlainTextBody) && string.IsNullOrWhiteSpace(request.HtmlBody)) return false;
+        if (string.IsNullOrWhiteSpace(request.VerificationCode)) return false;
 
         return true;
     }

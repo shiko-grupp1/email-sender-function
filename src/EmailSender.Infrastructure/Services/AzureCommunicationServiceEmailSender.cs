@@ -1,13 +1,13 @@
 ﻿using Azure.Communication.Email;
-using EmailSender.Function.Abstractions;
-using EmailSender.Function.Dtos;
+using EmailSender.Application.Abstractions;
+using EmailSender.Contracts.Contracts;
 using Microsoft.Extensions.Configuration;
 
-namespace EmailSender.Function.Services;
-
+namespace EmailSender.Infrastructure.Services;
+// Maps ComposedEmailMessage to Azure Communiation Service EmailMessage and sends it using EmailClient
 public class AzureCommunicationServiceEmailSender(EmailClient emailClient, IConfiguration configuration) : IEmailSender
 {
-    public async Task SendAsync(EmailMessageRequest request, CancellationToken ct = default)
+    public async Task SendAsync(ComposedEmailMessage message, CancellationToken ct = default)
     {
         string? senderAddress = configuration["SenderAddress"]
             ?? throw new InvalidOperationException("SenderAddress is missing");
@@ -15,14 +15,14 @@ public class AzureCommunicationServiceEmailSender(EmailClient emailClient, IConf
         EmailMessage emailMessage = new EmailMessage
             (
                 senderAddress: senderAddress,
-                content: new EmailContent(request.Subject)
+                content: new EmailContent(message.Subject)
                 {
-                    PlainText = request.PlainTextBody,
-                    Html = request.HtmlBody
+                    PlainText = message.PlainTextBody,
+                    Html = message.HtmlBody
                 },
                 recipients: new EmailRecipients
                 (
-                    [new EmailAddress(request.To)]
+                    [new EmailAddress(message.To)]
                 )
             );
 

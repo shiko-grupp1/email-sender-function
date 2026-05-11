@@ -7,7 +7,7 @@ using System.Text.Json;
 
 namespace EmailSender.Function.Functions;
 // queue message -> verification model -> composed email -> ACS sender
-public class SendVerificationEmailFunctions(IVerificationEmailComposer emailComposer, IEmailSender emailSender, ILogger<SendVerificationEmailFunctions> logger, CancellationToken ct = default)
+public class SendVerificationEmailFunctions(IVerificationEmailComposer emailComposer, IEmailSender emailSender, CancellationToken ct = default)
 {
     private static readonly JsonSerializerOptions _jsonOptions = new JsonSerializerOptions
     {
